@@ -15,6 +15,8 @@ public class Car {
     private BigDecimal price;
     private int year;
 
+    public Car() {
+    }
 
     public Car(String brand, BigDecimal price, int year) {
         this.brand = brand;
@@ -24,6 +26,18 @@ public class Car {
 
     public Long getId() {
         return id;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public int getYear() {
+        return year;
     }
 
     public void setId(Long id) {

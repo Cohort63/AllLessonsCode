@@ -3,10 +3,7 @@ package app.repository;
 import app.model.Car;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Sergey Bugaenko
@@ -40,6 +37,13 @@ public class CarRepositoryMap implements CarRepository{
         database.put(car.getId(), car);
         return car;
     }
+
+    @Override
+    public Car getById(long id) {
+        return database.getOrDefault(id, null);
+    }
+
+
 }
 
 

@@ -14,4 +14,6 @@ public interface CarRepository {
     List<Car> getAll();
 
     Car save(Car car);
+
+    Car getById(long id);
 }

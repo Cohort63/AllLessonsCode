@@ -11,5 +11,4 @@
         <servlet-name>carServlet</servlet-name>
         <url-pattern>/cars</url-pattern>
     </servlet-mapping>
-
 </web-app>
