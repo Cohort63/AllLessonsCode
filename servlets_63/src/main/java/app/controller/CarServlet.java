@@ -2,6 +2,7 @@ package app.controller;
 
 import app.model.Car;
 import app.repository.CarRepository;
+import app.repository.CarRepositoryDB;
 import app.repository.CarRepositoryMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 public class CarServlet extends HttpServlet {
 
-    private CarRepository repository = new CarRepositoryMap();
+    private CarRepository repository = new CarRepositoryDB();
 
     private ObjectMapper mapper = new ObjectMapper(); // Создаю объект ObjectMapper
 
@@ -91,18 +92,37 @@ public class CarServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Homework
         // Приходить объект в теле запроса.
         // Изменить только цену автомобиля
         // обновление существующего автомобиля
-        super.doPut(req, resp);
+
+        Car dto =mapper.readValue(req.getReader(), Car.class);
+
+        Car updatedCar = repository.update(dto);
+
+        if (updatedCar == null) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            resp.getWriter().write("{\"message\" : \"Car not fond\"}");
+        } else {
+            String json = mapper.writeValueAsString(updatedCar);
+            resp.getWriter().write(json);
+        }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Homework
         // Удаление автомобиля из БД по его id
         // id приходит в параметрах запроса
-        super.doDelete(req, resp);
+
+        long id = Long.parseLong(req.getParameter("id"));
+
+        Car car = repository.delete(id);
+
+        if (car == null) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.getWriter().write("{\"message\" : \"Car not fond\"}");
+        } else {
+            resp.getWriter().write(mapper.writeValueAsString(car));
+        }
     }
 }

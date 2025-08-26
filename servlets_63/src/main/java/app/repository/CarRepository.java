@@ -16,4 +16,8 @@ public interface CarRepository {
     Car save(Car car);
 
     Car getById(long id);
+
+    Car update(Car car);
+
+    Car delete(long id);
 }

@@ -43,7 +43,25 @@ public class CarRepositoryMap implements CarRepository{
         return database.getOrDefault(id, null);
     }
 
+    @Override
+    public Car update(Car car) {
+        Long id = car.getId();
+        BigDecimal newPrice = car.getPrice();
 
+        // Добавить проверки
+
+        Car carToUpdate = database.getOrDefault(id, null);
+        if (carToUpdate == null) return null;
+
+        carToUpdate.setPrice(newPrice);
+
+        return carToUpdate;
+    }
+
+    @Override
+    public Car delete(long id) {
+       return database.remove(id);
+    }
 }
 
 

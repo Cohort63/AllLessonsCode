@@ -44,6 +44,18 @@ public class Car {
         this.id = id;
     }
 
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return String.format("Car: id - %d, brand - %s, price - %s, year - %d",
