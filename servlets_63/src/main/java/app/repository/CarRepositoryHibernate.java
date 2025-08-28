@@ -51,20 +51,46 @@ public class CarRepositoryHibernate implements CarRepository{
 
     @Override
     public Car getById(long id) {
-        Car foundCar = entityManager.find(Car.class, id);
-        return foundCar;
+        return entityManager.find(Car.class, id);
     }
 
     @Override
-    public Car update(Car car) {
-        // TODO Homework
-        return null;
+    public Car update(Car dataForUpdate) {
+        // id :
+        // newPrice:
+        EntityTransaction transaction = entityManager.getTransaction();
+
+
+        try {
+            transaction.begin();
+            Car foundCar = entityManager.find(Car.class, dataForUpdate.getId());
+            foundCar.setPrice(dataForUpdate.getPrice());
+            transaction.commit();
+            return foundCar;
+
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
     public Car delete(long id) {
-        // TODO Homework
-        // remove(foundCat)
-        return null;
+
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+            Car foundCar = entityManager.find(Car.class, id);
+            entityManager.remove(foundCar);
+            transaction.commit();
+            return foundCar;
+            // remove(foundCat)
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            throw new RuntimeException(e);
+        }
+
     }
 }
